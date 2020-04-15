@@ -1,16 +1,19 @@
-package clientgui;
+package clientgui.chat;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.web.WebView;
 
 public class ChatController {
 
     @FXML
-    TextField messageField;
+    private WebView chatView;
     @FXML
-    Button sendButton;
+    private TextField messageField;
+    @FXML
+    private Button sendButton;
 
     private TextFieldInputWrapper wrapper;
 
@@ -20,6 +23,10 @@ public class ChatController {
 
     public TextFieldInputWrapper getWrapper() {
         return this.wrapper;
+    }
+
+    public WebView getChatView() {
+        return this.chatView;
     }
 
     public void sendMessage(ActionEvent actionEvent) {

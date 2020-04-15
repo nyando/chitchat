@@ -1,4 +1,4 @@
-package clientgui;
+package clientgui.chat;
 
 import communication.IMessageInput;
 import javafx.scene.control.TextField;
@@ -51,6 +51,10 @@ public class TextFieldInputWrapper implements IMessageInput {
 
     @Override
     public String readLine() {
-        return this.messageQueue.remove();
+        String msg = this.messageQueue.remove();
+
+        if (msg.startsWith("@")) {
+            return MessageInterpreter.convertWhisperOut(msg);
+        } else return msg;
     }
 }

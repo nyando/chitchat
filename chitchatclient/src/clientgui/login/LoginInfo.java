@@ -1,4 +1,4 @@
-package clientgui;
+package clientgui.login;
 
 import java.net.Socket;
 
@@ -7,7 +7,7 @@ public class LoginInfo {
     private Socket server;
     private String username;
 
-    LoginInfo(Socket server, String username) {
+    public LoginInfo(Socket server, String username) {
         this.server = server;
         this.username = username;
     }

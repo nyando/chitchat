@@ -1,5 +1,6 @@
-package clientgui;
+package clientgui.login;
 
+import clientgui.Main;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -46,7 +47,7 @@ public class LoginController {
         if (serverOutput.nextLine().equals("#IDTAKEN")) {
             this.userTakenLabel.setVisible(true);
         } else {
-            this.main.info = new LoginInfo(server, username);
+            this.main.setInfo(new LoginInfo(server, username));
             this.main.switchToChat();
         }
     }

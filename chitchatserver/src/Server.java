@@ -54,6 +54,8 @@ public class Server {
     }
 
     public void broadcast(String msg) {
+        if (msg.equals("")) { return; }
+
         this.clients.forEach(c -> {
             c.getOutStream().println(msg);
             c.getOutStream().flush();
@@ -61,6 +63,8 @@ public class Server {
     }
 
     public void broadcast(String user, String msg) {
+        if (msg.equals("")) { return; }
+
         this.clients.forEach(c -> {
             c.getOutStream().println(user + ";" + msg);
             c.getOutStream().flush();
@@ -68,6 +72,10 @@ public class Server {
     }
 
     public boolean whisper(String src, String dst, String msg) {
+        if (msg.equals("")) {
+            return true;
+        }
+
         Client dstClient = this.clients.stream().filter(c -> c.getName().equals(dst)).findFirst().orElse(null);
         if (dstClient == null) { return false; }
         else {
