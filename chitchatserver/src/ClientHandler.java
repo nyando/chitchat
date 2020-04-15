@@ -14,6 +14,10 @@ public class ClientHandler implements Runnable {
     public void run() {
         String input;
 
+        this.server.broadcast(client.getName() + " has entered the chat.");
+        this.server.broadcast(this.server.getUserList());
+        this.server.whisper("SERVER", this.client.getName(), "Hi, " + this.client.getName() + "! Type something to chat.");
+
         Scanner scInput = new Scanner(this.client.getInStream());
         while (scInput.hasNextLine()) {
             input = scInput.nextLine();

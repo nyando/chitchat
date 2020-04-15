@@ -42,9 +42,9 @@ public class Main extends Application {
     }
 
     public void switchToChat() throws IOException {
-        this.window.setScene(this.chat);
         this.chatController.initWrapper();
         new Thread(new ChatHandler(this.info.getServer(), this.chatController.getWrapper(), new OutputHandler(this.chatController.getChatView()))).start();
+        this.window.setScene(this.chat);
         this.window.show();
     }
 

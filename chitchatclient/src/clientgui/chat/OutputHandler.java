@@ -37,5 +37,7 @@ public class OutputHandler implements IMessageOutput {
             this.engine.loadContent(this.content, "text/html");
             this.engine.executeScript("window.scrollTo(0, document.body.scrollHeight);");
         });
+
+        System.out.println(msg);
     }
 }

@@ -31,7 +31,7 @@ public class Server {
             String clientName = inputScan.nextLine();
 
             // check if desired username is taken, if it is, close socket, else create a new client object
-            if (this.clients.stream().anyMatch(c -> c.getName().equals(clientName)) || clientName.equals("nickay")) {
+            if (this.clients.stream().anyMatch(c -> c.getName().equals(clientName))) {
                 new PrintStream(clientSocket.getOutputStream()).println("#IDTAKEN");
                 clientSocket.close();
             } else {
@@ -43,8 +43,6 @@ public class Server {
     public void addClient(String name, Socket socket) throws IOException {
         Client newClient = new Client(name, socket);
         this.clients.add(newClient);
-        this.broadcast(this.getUserList());
-        this.whisper("SERVER", newClient.getName(), "Hi, " + newClient.getName() + "! Type something to chat.");
         new Thread(new ClientHandler(this, newClient)).start();
     }
 
@@ -85,7 +83,7 @@ public class Server {
         }
     }
 
-    private String getUserList() {
+    public String getUserList() {
         return "#USERLIST;" + this.clients.stream().map(Client::getName).collect(Collectors.joining(";"));
     }
 
