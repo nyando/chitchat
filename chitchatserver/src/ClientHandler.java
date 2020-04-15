@@ -26,7 +26,6 @@ public class ClientHandler implements Runnable {
                 this.server.broadcast(client.getName(), input);
             }
 
-            System.out.println(input);
         }
 
         this.server.removeClient(this.client);

@@ -33,12 +33,13 @@ public class CommandLineClient implements IMessageOutput {
 
             System.out.print("Enter username: ");
             serverInput.println(usernameReader.nextLine());
+            serverInput.flush();
         } while (serverOutput.nextLine().equals("#IDTAKEN"));
 
         System.out.println("Sign in successful.");
 
         try {
-            new Thread(new ChatHandler(server, System.in, this)).start();
+            new Thread(new ChatHandler(server, new StandardInputWrapper(), this)).start();
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -46,7 +47,16 @@ public class CommandLineClient implements IMessageOutput {
 
     @Override
     public void printMessage(String msg) {
-        System.out.println(msg);
+        if (msg.startsWith("#WHISPER")) {
+            System.out.println(MessageInterpreter.convertWhisperIn(msg));
+        } else if (msg.contains("#USERLIST")) {
+            String[] userList = MessageInterpreter.convertUserlist(msg);
+            System.out.println("User list update: " + String.join(", ", userList));
+        } else if (msg.contains(";")) {
+            System.out.println(MessageInterpreter.convertUserBroadcast(msg));
+        } else {
+            System.out.println(MessageInterpreter.convertServerBroadcast(msg));
+        }
     }
 
 }

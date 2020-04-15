@@ -31,7 +31,7 @@ public class Server {
             String clientName = inputScan.nextLine();
 
             // check if desired username is taken, if it is, close socket, else create a new client object
-            if (this.clients.stream().anyMatch(c -> c.getName().equals(clientName))) {
+            if (this.clients.stream().anyMatch(c -> c.getName().equals(clientName)) || clientName.equals("nickay")) {
                 new PrintStream(clientSocket.getOutputStream()).println("#IDTAKEN");
                 clientSocket.close();
             } else {
