@@ -2,20 +2,17 @@ package clientgui.chat;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.web.WebView;
 
 public class ChatController {
 
+    private TextFieldInputWrapper wrapper;
+
     @FXML
     private WebView chatView;
     @FXML
     private TextField messageField;
-    @FXML
-    private Button sendButton;
-
-    private TextFieldInputWrapper wrapper;
 
     public void initWrapper() {
         this.wrapper = new TextFieldInputWrapper(this.messageField);

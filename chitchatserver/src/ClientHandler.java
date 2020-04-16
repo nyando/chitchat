@@ -22,14 +22,17 @@ public class ClientHandler implements Runnable {
         while (scInput.hasNextLine()) {
             input = scInput.nextLine();
 
-            if (input.startsWith("#WHISPER")) {
+            if (input.toLowerCase().startsWith("#whisper")) {
                 if (!this.server.whisper(this.client.getName(), this.getWhisperDestination(input), this.getWhisperMessage(input))) {
                     this.server.whisper("SERVER", this.client.getName(), "user " + this.getWhisperDestination(input) + " not found :(");
+                } else {
+                    this.server.whisper(this.client.getName(), this.client.getName(), this.getWhisperMessage(input));
                 }
+            } else if (input.toLowerCase().equals("#quit")) {
+                break;
             } else {
                 this.server.broadcast(client.getName(), input);
             }
-
         }
 
         this.server.removeClient(this.client);

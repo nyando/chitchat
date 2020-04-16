@@ -28,6 +28,9 @@ public class ChatHandler implements Runnable {
 
         while (this.messageInput.isActive()) {
             String msg = this.messageInput.readLine();
+            if (msg.toLowerCase().equals("#quit")) {
+                break;
+            }
             this.out.println(msg);
             this.out.flush();
         }

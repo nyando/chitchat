@@ -14,10 +14,10 @@ import java.io.IOException;
 
 public class Main extends Application {
 
-    LoginController loginController;
-    ChatController chatController;
-    Stage window;
-    Scene login, chat;
+    private LoginController loginController;
+    private ChatController chatController;
+    private Stage window;
+    private Scene login, chat;
     private LoginInfo info;
 
     @Override

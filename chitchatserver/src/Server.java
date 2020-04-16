@@ -7,6 +7,8 @@ import java.util.stream.Collectors;
 
 public class Server {
 
+    private static final int DEFAULT_PORT = 6667;
+
     private final int port;
     private final List<Client> clients;
 
@@ -16,7 +18,23 @@ public class Server {
     }
 
     public static void main(String[] args) throws IOException {
-        new Server(12345).init();
+        int port = DEFAULT_PORT;
+
+        if (args.length > 1) {
+            try {
+                port = Integer.parseInt(args[1]);
+            } catch (NumberFormatException ex) {
+                System.out.println("no valid number supplied as argument, using default port " + DEFAULT_PORT);
+                port = DEFAULT_PORT;
+            }
+
+            if (port < 0 || port > 65535) {
+                System.out.println("invalid port number, using default port " + DEFAULT_PORT);
+                port = DEFAULT_PORT;
+            }
+        }
+
+        new Server(port).init();
     }
 
     public void init() throws IOException {

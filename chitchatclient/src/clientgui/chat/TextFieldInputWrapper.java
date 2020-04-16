@@ -1,6 +1,7 @@
 package clientgui.chat;
 
 import communication.IMessageInput;
+import javafx.application.Platform;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 
@@ -10,6 +11,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class TextFieldInputWrapper implements IMessageInput {
 
     volatile boolean send = false;
+    volatile boolean quit = false;
 
     private final TextField field;
     private final Queue<String> messageQueue;
@@ -52,6 +54,10 @@ public class TextFieldInputWrapper implements IMessageInput {
     @Override
     public String readLine() {
         String msg = this.messageQueue.remove();
+
+        if (msg.toLowerCase().equals("#quit")) {
+            Platform.exit();
+        }
 
         if (msg.startsWith("@")) {
             return MessageInterpreter.convertWhisperOut(msg);

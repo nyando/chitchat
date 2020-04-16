@@ -25,7 +25,7 @@ public class CommandLineClient implements IMessageOutput {
             if (loginAttempted) { System.out.println("Username taken, please choose another."); }
             loginAttempted = true;
 
-            server = new Socket("localhost", 12345);
+            server = new Socket("localhost", 6667);
 
             serverOutput = new Scanner(server.getInputStream());
             serverInput = new PrintStream(server.getOutputStream());

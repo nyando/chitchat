@@ -18,6 +18,7 @@ public class OutputHandler implements IMessageOutput {
         this.doc = Jsoup.parse(this.content);
         this.engine = view.getEngine();
         this.engine.loadContent(this.content, "text/html");
+        this.doc.head().append("<style>body { background-color: #f4f4f4;font-family: Helvetica, sans-serif; }</style>");
     }
 
     @Override
