@@ -11,6 +11,9 @@ import java.io.PrintStream;
 import java.net.Socket;
 import java.util.Scanner;
 
+/**
+ * Handle user login, display an error when desired username is already taken on server.
+ */
 public class LoginController {
 
     private Main main;
@@ -28,6 +31,14 @@ public class LoginController {
         this.main = main;
     }
 
+    /**
+     * Called when clicking "Login" in the login screen.
+     * Attempts to login to server with the given address, port, and username.
+     * Throws an IOException if connection was unsuccessful, and displays an error message if username is taken.
+     * On success, switches scene to chat view.
+     * @param actionEvent Click event on "Login" button.
+     * @throws IOException If server connection fails (nonexistent server, too many incoming connections, etc.).
+     */
     public void login(ActionEvent actionEvent) throws IOException {
         Socket server;
         PrintStream serverInput;

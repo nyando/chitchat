@@ -12,11 +12,21 @@ public class Server {
     private final int port;
     private final List<Client> clients;
 
+    /**
+     * Create a new Server instance to handle all incoming client connections.
+     * @param port Port on which to listen for incoming connections.
+     */
     public Server(int port) {
         this.port = port;
         this.clients = new ArrayList<>();
     }
 
+    /**
+     * Starts the server, default port (if not specified) is DEFAULT_PORT.
+     *
+     * @param args - Service port, if empty, use DEFAULT_PORT.
+     * @throws IOException Passed up from init().
+     */
     public static void main(String[] args) throws IOException {
         int port = DEFAULT_PORT;
 
@@ -37,6 +47,11 @@ public class Server {
         new Server(port).init();
     }
 
+    /**
+     * Accepts incoming connections from clients indefinitely, expects message from client containing username.
+     * If username is taken, replies with "#IDTAKEN" and closes the connection, else opens a new ClientHandler thread.
+     * @throws IOException In case of problems opening the client socket's I/O-streams.
+     */
     public void init() throws IOException {
         ServerSocket server = new ServerSocket(port);
 
@@ -58,17 +73,32 @@ public class Server {
         }
     }
 
+    /**
+     * Create a new ClientHandler thread on successful client login.
+     * Add new Client object to list of clients.
+     * @param name Client's username
+     * @param socket Client's socket object accepted by the server.
+     * @throws IOException If there are problems accessing socket's I/O-streams.
+     */
     public void addClient(String name, Socket socket) throws IOException {
         Client newClient = new Client(name, socket);
         this.clients.add(newClient);
         new Thread(new ClientHandler(this, newClient)).start();
     }
 
+    /**
+     * Remove client from clients list and broadcast updated user list.
+     * @param client Client that disconnected from server.
+     */
     public void removeClient(Client client) {
         this.clients.remove(client);
         this.broadcast(this.getUserList());
     }
 
+    /**
+     * Broadcast server message to all clients.
+     * @param msg Message to broadcast.
+     */
     public void broadcast(String msg) {
         if (msg.equals("")) { return; }
 
@@ -78,6 +108,12 @@ public class Server {
         });
     }
 
+    /**
+     * Broadcast message from user to all clients (also reflected back to user).
+     * Default mode of communication on the server. No broadcast happens if the message is empty.
+     * @param user Username of client broadcasting message.
+     * @param msg Message broadcast to all clients.
+     */
     public void broadcast(String user, String msg) {
         if (msg.equals("")) { return; }
 
@@ -87,6 +123,13 @@ public class Server {
         });
     }
 
+    /**
+     * Send private message msg from client src to client dst. No message sent if msg is empty.
+     * @param src Username of sending client.
+     * @param dst Username of receiving client.
+     * @param msg Message to send.
+     * @return True if user dst exists, false if not.
+     */
     public boolean whisper(String src, String dst, String msg) {
         if (msg.equals("")) {
             return true;
@@ -101,6 +144,10 @@ public class Server {
         }
     }
 
+    /**
+     * Create string listing all usernames currently logged into server (Format: "#USERLIST;user1;...;userN").
+     * @return User list in client-digestible form.
+     */
     public String getUserList() {
         return "#USERLIST;" + this.clients.stream().map(Client::getName).collect(Collectors.joining(";"));
     }

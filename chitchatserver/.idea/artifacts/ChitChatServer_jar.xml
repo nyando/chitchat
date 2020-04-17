@@ -3,6 +3,7 @@
     <output-path>$PROJECT_DIR$/out/artifacts/ChitChatServer_jar</output-path>
     <root id="archive" name="ChitChatServer.jar">
       <element id="module-output" name="ChitChatServer" />
+      <element id="module-source" name="ChitChatServer" />
     </root>
   </artifact>
 </component>

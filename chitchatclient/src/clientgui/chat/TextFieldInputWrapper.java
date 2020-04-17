@@ -8,14 +8,22 @@ import javafx.scene.input.KeyCode;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+/**
+ * Provides message input interface for the TextField in the GUI chat.
+ */
 public class TextFieldInputWrapper implements IMessageInput {
 
     volatile boolean send = false;
-    volatile boolean quit = false;
 
     private final TextField field;
     private final Queue<String> messageQueue;
 
+    /**
+     * Create wrapper for an input message stream from a JavaFX text field.
+     * Input is sent whenever ENTER is pressed.
+     * Messages are stored in a queue.
+     * @param field JavaFX text field functioning as input stream.
+     */
     public TextFieldInputWrapper(TextField field) {
         this.field = field;
         // send contents of textfield when ENTER is pressed
@@ -30,6 +38,11 @@ public class TextFieldInputWrapper implements IMessageInput {
         this.messageQueue = new ConcurrentLinkedQueue<>();
     }
 
+    /**
+     * Blocks while waiting for a message, returns true when ENTER is pressed (or the send button is clicked).
+     * Then empties TextField and dispatches message to the message queue.
+     * @return True on new available message.
+     */
     @Override
     public boolean isActive() {
         if (this.messageQueue.isEmpty()) {
@@ -51,6 +64,10 @@ public class TextFieldInputWrapper implements IMessageInput {
         return true;
     }
 
+    /**
+     * Return the next message waiting in the message queue.
+     * @return Head of the message queue.
+     */
     @Override
     public String readLine() {
         String msg = this.messageQueue.remove();

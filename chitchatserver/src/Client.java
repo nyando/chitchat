@@ -9,6 +9,12 @@ public class Client {
     private final InputStream inputStream;
     private final PrintStream outputStream;
 
+    /**
+     * Client object that encapsulates the socket and simplifies I/O.
+     * @param name Username of the client.
+     * @param conn Client's socket connection.
+     * @throws IOException If there is a problem handling client's socket's I/O-streams.
+     */
     public Client(String name, Socket conn) throws IOException {
         this.name = name;
         this.inputStream = conn.getInputStream();

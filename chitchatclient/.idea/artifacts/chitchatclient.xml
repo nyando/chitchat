@@ -12,10 +12,11 @@
       </options>
     </properties>
     <root id="root">
+      <element id="library" level="project" name="jsoup-1.13.1" />
       <element id="archive" name="chitchatclient.jar">
         <element id="module-output" name="chitchatclient" />
       </element>
-      <element id="library" level="project" name="jsoup-1.13.1" />
+      <element id="module-source" name="chitchatclient" />
     </root>
   </artifact>
 </component>

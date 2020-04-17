@@ -8,13 +8,24 @@ import java.io.PrintStream;
 import java.net.Socket;
 import java.util.Scanner;
 
+/**
+ * Handles initialization and message output for the CLI chat.
+ */
 public class CommandLineClient implements IMessageOutput {
 
     public static void main(String[] args) throws IOException {
-        new CommandLineClient().init();
+        new CommandLineClient().init(args[0], Integer.parseInt(args[1]));
     }
 
-    public void init() throws IOException {
+    /**
+     * Start a client and attempt to sign in to chat server at (hostname:port).
+     * User chooses a username, server will reply with #IDTAKEN if username is taken.
+     * In this case, let the user try again until he picks a unique username.
+     * @param hostname Hostname of the target chat server.
+     * @param port Port number of the target chat server.
+     * @throws IOException If problems occur while trying to open a socket connection to server.
+     */
+    public void init(String hostname, int port) throws IOException {
         Socket server;
         Scanner usernameReader, serverOutput;
         PrintStream serverInput;
@@ -25,7 +36,7 @@ public class CommandLineClient implements IMessageOutput {
             if (loginAttempted) { System.out.println("Username taken, please choose another."); }
             loginAttempted = true;
 
-            server = new Socket("localhost", 6667);
+            server = new Socket(hostname, port);
 
             serverOutput = new Scanner(server.getInputStream());
             serverInput = new PrintStream(server.getOutputStream());
@@ -45,6 +56,10 @@ public class CommandLineClient implements IMessageOutput {
         }
     }
 
+    /**
+     * Output incoming messages to standard output after formatting them with MessageInterpreter.
+     * @param msg Incoming message from server.
+     */
     @Override
     public void printMessage(String msg) {
         if (msg.startsWith("#WHISPER")) {

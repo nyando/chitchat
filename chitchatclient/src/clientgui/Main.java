@@ -12,6 +12,9 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * Graphical interface of the chat. Allows user to login and chat once connected to a server.
+ */
 public class Main extends Application {
 
     private LoginController loginController;
@@ -20,6 +23,12 @@ public class Main extends Application {
     private Scene login, chat;
     private LoginInfo info;
 
+    /**
+     * Load both login and chat scenes from their respective FXML files.
+     * Begin with the login window.
+     * @param primaryStage Main (and only) GUI frame.
+     * @throws Exception On problems handling FXML, loaders, or controllers.
+     */
     @Override
     public void start(Stage primaryStage) throws Exception {
         this.window = primaryStage;
@@ -41,6 +50,10 @@ public class Main extends Application {
         this.info = info;
     }
 
+    /**
+     * Switch scenes from login to chat on successful login to server.
+     * @throws IOException On errors in handling socket IO.
+     */
     public void switchToChat() throws IOException {
         this.chatController.initWrapper();
         new Thread(new ChatHandler(this.info.getServer(), this.chatController.getWrapper(), new OutputHandler(this.chatController.getChatView()))).start();
